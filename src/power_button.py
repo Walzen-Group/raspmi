@@ -36,7 +36,9 @@ def index() -> str:
 def power() -> str:
     """Send command to activate the relay."""
     if flask.request.method == 'POST':
-        activate_relay(config['relay_time'])
+        # get data
+        data = flask.request.get_json()
+        activate_relay(data['relay_time'])
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 
