@@ -21,9 +21,6 @@ def load_config() -> None:
 config = {}
 load_config()
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(config["relay_chan"], GPIO.OUT)
-
 @app.before_request
 def before_request() -> None:
     """Reload the config file before each request."""
@@ -46,6 +43,8 @@ def power() -> str:
 def activate_relay(time_on: float=0.1) -> None:
     """Activate the relay for the given time."""
     logger.info(f"Activating relay for {time_on} seconds.")
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(config["relay_chan"], GPIO.OUT)
     try:
         GPIO.output(config["relay_chan"], GPIO.HIGH)
         time.sleep(time_on)
