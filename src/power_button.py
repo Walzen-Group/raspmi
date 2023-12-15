@@ -27,24 +27,11 @@ logger.addHandler(ch)
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
 
-config = {}
-
-def load_config():
-    """Load the config file into the config variable."""
-    global config
-    try:
-        with open('config.json') as json_file:
-            config = json.load(json_file)
-    except Exception as e:
-        logger.error(f"Error loading config: {e}")
-
-load_config()
-
-@app.before_request
-def before_request():
-    """Reload the config file before each request."""
-    logger.debug("Reloading config")
-    load_config()
+try:
+    with open('config.json') as json_file:
+        config = json.load(json_file)
+except Exception as e:
+    logger.error(f"Error loading config: {e}")
 
 @app.route('/', methods=['GET'])
 def index():
