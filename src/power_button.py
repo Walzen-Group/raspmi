@@ -27,11 +27,7 @@ logger.addHandler(ch)
 app = flask.Flask(__name__)
 flask_cors.CORS(app)
 
-try:
-    with open('config.json') as json_file:
-        config = json.load(json_file)
-except Exception as e:
-    logger.error(f"Error loading config: {e}")
+RELAY_CHAN = 21
 
 @app.route('/', methods=['GET'])
 def index():
@@ -49,11 +45,11 @@ def activate_relay(time_on: float):
     """Activate the relay for the given time."""
     logger.info(f"Activating relay for {time_on} seconds.")
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(config.get("relay_chan", 21), GPIO.OUT)
+    GPIO.setup(RELAY_CHAN, GPIO.OUT)
     try:
-        GPIO.output(config.get("relay_chan", 21), GPIO.HIGH)
+        GPIO.output(RELAY_CHAN, GPIO.HIGH)
         time.sleep(time_on)
-        GPIO.output(config.get("relay_chan", 21), GPIO.LOW)
+        GPIO.output(RELAY_CHAN, GPIO.LOW)
     except KeyboardInterrupt:
         pass
     except Exception as e:
