@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  power-button-app:
+    container_name: power-button-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    privileged: true
+    restart: unless-stopped

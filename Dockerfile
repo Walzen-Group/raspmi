@@ -5,6 +5,5 @@ COPY requirements.txt .
 RUN apt-get update && apt-get install -y gcc
 RUN pip install --no-cache-dir -r requirements.txt
 COPY src/power_button.py .
-ENV CONFIG_DIR=/app/config
 EXPOSE 5000
 ENTRYPOINT ["python", "power_button.py"]
