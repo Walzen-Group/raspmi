@@ -36,14 +36,16 @@ def index() -> str:
 def power() -> str:
     """Send command to activate the relay."""
     if flask.request.method == 'POST':
-        # get data
+        # get data if set
         data = flask.request.get_json()
-        activate_relay(data['relay_time'])
+        activate_relay(data.get('relay_time', None))
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 
-def activate_relay(time_on: float=0.1) -> None:
+def activate_relay(time_on: float) -> None:
     """Activate the relay for the given time."""
+    if time_on is None:
+        time_on = 0.1
     logger.info(f"Activating relay for {time_on} seconds.")
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(config["relay_chan"], GPIO.OUT)
