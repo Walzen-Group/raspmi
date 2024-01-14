@@ -56,8 +56,8 @@ async def send_message(text):
 
 def activate_relay(time_on: float):
     """Activate the relay for the given time."""
-    logger.info(f"Activating relay for {time_on} seconds.")
-    asyncio.run(send_message(f"Pressing power button for {time_on} seconds."))
+    logger.info(f"rasPMI: Activating relay for {time_on} seconds.")
+    asyncio.run(send_message(f"rasPMI: Pressing power button for {time_on} seconds."))
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(RELAY_CHAN, GPIO.OUT)
     try:
@@ -68,6 +68,7 @@ def activate_relay(time_on: float):
         pass
     except Exception as e:
         logger.error(f"Error activating relay: {e}")
+        asyncio.run(send_message(f"rasPMI: Error activating relay: {e}"))
     finally:
         GPIO.cleanup()
 
